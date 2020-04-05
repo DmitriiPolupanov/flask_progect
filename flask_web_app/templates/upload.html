@@ -1,0 +1,108 @@
+<html>
+<head>
+{% include 'header.html' %}
+{% include 'header.css' %}
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	  <a class="navbar-brand" href="#">Upload</a>
+	</nav>
+
+	<div class="container-fluid">
+	
+	<div align="center" id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+    <div class="carousel-inner" role="listbox">
+	
+	{% if pictures %}
+		<div class="carousel-item active">
+		    <img style="width:256px;height:256px;" src="/static/img/{{ pictures | last }}" alt="First slide">
+		</div>
+		{% do pictures.pop() %}
+		{% for item in pictures %}
+			<div class="carousel-item">
+			    <img style="width:256px;height:256px;" src="/static/img/{{ item }}" alt="Second slide">
+			</div>
+		{% endfor %}
+	{% else %}
+		<h1>Изображения отсутствуют</h1>
+	{% endif %}
+        
+    </div>
+    <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+	</div>
+	
+	<div class="container">
+		<form method="POST"  enctype="multipart/form-data">
+			<fieldset class="number">
+				{{ form.lat.label }}
+				{{ form.lat }}
+				{% if form.lat.errors %}
+				  <ul class="errors">
+				    {% for error in form.lat.errors %}<li>{{ error }}</li>{% endfor %}
+				  </ul>
+				{% endif %}
+		      </fieldset>
+				
+			<fieldset class="number">
+				{{ form.lng.label }}
+				{{ form.lng }}
+				{% if form.lng.errors %}
+				  <ul class="errors">
+				    {% for error in form.lng.errors %}<li>{{ error }}</li>{% endfor %}
+				  </ul>
+				{% endif %}
+		      </fieldset>
+		      
+		      
+		      <fieldset class="text">
+				{{ form.name.label }}
+				{{ form.name }}
+				{% if form.name.errors %}
+				  <ul class="errors">
+				    {% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}
+				  </ul>
+				{% endif %}
+		      </fieldset>
+		      
+			<fieldset class="text">
+				{{ form.desc.label }}
+				{{ form.desc }}
+				{% if form.desc.errors %}
+				  <ul class="errors">
+				    {% for error in form.desc.errors %}<li>{{ error }}</li>{% endfor %}
+				  </ul>
+				{% endif %}
+		      </fieldset>
+			<fieldset class="file">
+				{{ form.photo.label }}
+				{{ form.photo }}
+				{% if form.photo.errors %}
+				  <ul class="errors">
+				    {% for error in form.photo.errors %}<li>{{ error }}</li>{% endfor %}
+				  </ul>
+				{% endif %}
+		      </fieldset>
+	      {{ form.csrf_token }}
+		      <div class="submitbutton">
+			<input id="submit" type="submit" value="Подтвердить">
+		      </div>
+		</form>
+		
+		<div class="loginsignup">
+		      <span>Просмотреть карту <a href="/home">здесь</a></span>
+		</div>
+		
+	</div>
+	
+	
+</body>
+</html>

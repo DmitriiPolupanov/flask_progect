@@ -1,0 +1,58 @@
+<html>
+<head>
+{% include 'header.html' %}
+{% include 'header.css' %}
+<script src="https://api-maps.yandex.ru/2.1/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&lang=ru_RU" type="text/javascript">
+    </script>
+
+    <script type="text/javascript">
+	ymaps.ready(function () {
+	    var myMap = new ymaps.Map('map', {
+		    center: [55.751594, 37.618949],
+		    zoom: 9
+		}, {
+		    searchControlProvider: 'yandex#search'
+		}),
+
+		MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
+		    '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
+		)
+		{% if meta %}
+			{% for m in meta %}
+			,
+			myPlacemarkWithContent = new ymaps.Placemark([{{m.lat}}, {{m.lng}}], {
+			    hintContent: 'Кремль',
+			    balloonContent: '{{m.desc}}',
+			}, {
+			    iconLayout: 'default#imageWithContent',
+			    iconImageHref: '/static/img/{{m.img}}',
+			    iconImageSize: [128, 128],
+			    iconImageOffset: [-24, -24],
+			    iconContentOffset: [15, 15],
+			    iconContentLayout: MyIconContentLayout
+			});
+			myMap.geoObjects
+			.add(myPlacemarkWithContent);
+			{% endfor %}
+		{% endif %}
+	    
+	});
+</script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	  <a class="navbar-brand" href="#">YMap</a>
+	</nav>
+	
+	
+	<div class="container-fluid">
+		<div class="loginsignup">
+		      <span>Загрузить метки <a href="/upload">здесь</a></span>
+		</div>
+		<div id="map" style="width: 90%; height: 90%"></div>
+	</div>
+	
+	
+	
+</body>
+</html>
